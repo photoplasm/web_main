@@ -1,0 +1,143 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+
+<div class="box-content mt-16 w-32 h-32 border-4 border-slate-500 p-4 text-center rounded font-athiti text-2xl">
+    สวัสดีชาวโลก
+</div>
+
+
+<div class="mt-6">
+    <h1 id="head" class="text-4xl font-kanit">สวัสดีชาวโลก</h1>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full mt-2 font-sarabun" onclick="document.getElementById('head').style.color='red'">เปลี่ยนสี</button>
+</div>
+
+<div id="currentDateTime" class="mt-4 text-4xl font-kanit">
+    <script>UpdateTime();</script>
+</div>
+
+<div class="mt-4"> 
+	
+	<img id="myImage" src="{% static 'images/Idle.png' %}" alt="My image"/>
+	<button id="standButton" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full mt-2 font-sarabun">แมวยืน</button>
+	<button id="slideButton" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full mt-2 font-sarabun">แมวสไลด์</button>
+</div>
+
+<br>
+
+
+<button id="showButton" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full mt-2 font-sarabun">แสดงตาราง</button>
+<button id="hideButton" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full mt-2 font-sarabun">ซ่อนตาราง</button>
+
+
+<div id="tableContainer" class="hidden ">
+	<h2 >ตารางสินค้า</h2>
+	<table id="myTable" class="border-collapse border border-slate-500 ...">
+		<thead>
+			<tr>
+				<th class="border border-slate-600 ... bg-yellow-100">รายการที่ 1</th>
+				<th class="border border-slate-600 ... bg-yellow-100">รายการที่ 2</th>
+				<th class="border border-slate-600 ... bg-yellow-100">รายการที่ 3</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="border border-slate-700 ...">8</td>
+				<td class="border border-slate-700 ...">16</td>
+				<td class="border border-slate-700 ...">32</td>
+			</tr>
+			<tr>
+				<td class="border border-slate-700 ...">64</td>
+				<td class="border border-slate-700 ...">128</td>
+				<td class="border border-slate-700 ...">256</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<script>
+	function calculate() {
+		// รับข้อมูลจาก input box
+		const num1 = parseFloat(document.getElementById('num1').value);
+		const num2 = parseFloat(document.getElementById('num2').value);
+		const num3 = parseFloat(document.getElementById('num3').value);
+
+		// ตรวจสอบว่าข้อมูลที่ป้อนได้เป็นตัวเลขหรือไม่
+		if (isNaN(num1) || isNaN(num2) || isNaN(num3)) {
+			alert("กรุณากรอกตัวเลขให้ครบทั้ง 3 ตัว");
+			return;
+		}
+
+		// คำนวณค่าเฉลี่ย ค่าสูงสุด และค่าต่ำสุด
+		const average = (num1 + num2 + num3) / 3;
+		const max = Math.max(num1, num2, num3);
+		const min = Math.min(num1, num2, num3);
+
+		// แสดงผลลัพธ์
+		document.getElementById('result').innerHTML = `
+			<p>ค่าเฉลี่ย: ${average.toFixed(2)}</p>
+			<p>ค่าสูงสุด: ${max}</p>
+			<p>ค่าต่ำสุด: ${min}</p>
+		`;
+	}
+</script>
+
+<script>
+	// Get references to the elements
+	const showButton = document.getElementById('showButton');
+	const hideButton = document.getElementById('hideButton');
+	const tableContainer = document.getElementById('tableContainer');
+
+	// Add event listener to show button
+	showButton.addEventListener('click', () => {
+		tableContainer.classList.remove('hidden');
+	});
+
+	// Add event listener to hide button
+	hideButton.addEventListener('click', () => {
+		tableContainer.classList.add('hidden');
+	});
+</script>
+
+<script>
+	// Get references to the elements
+	const standButton = document.getElementById('standButton');
+	const slideButton = document.getElementById('slideButton');
+	const myImage = document.getElementById('myImage');
+
+	// Define the image sources
+	const standImageSrc = '{% static "images/Idle.png" %}';
+	const slideImageSrc = '{% static "images/Slide.png" %}';
+
+	// Add event listeners to the buttons
+	standButton.addEventListener('click', () => {
+		myImage.src = standImageSrc;
+	});
+
+	slideButton.addEventListener('click', () => {
+		myImage.src = slideImageSrc;
+	});
+</script>
+
+
+<form onsubmit="event.preventDefault(); calculate();">
+	<br><label for="num1">Number #1:</label>
+	<input type="number" id="num1" step="any" required>
+	<br>
+	<label for="num2">Number #2:</label>
+	<input type="number" id="num2" step="any" required>
+	<br>
+	<label for="num3">Number #3:</label>
+	<input type="number" id="num3" step="any" required>
+	<br>
+	<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full mt-2 font-sarabun">Submit</button>
+</form>
+<div id="result"></div>
+
+{% endblock content %}

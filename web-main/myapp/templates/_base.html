@@ -1,0 +1,56 @@
+{% load compress %}
+{% load static %}
+ 
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Untitled{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    {% compress css %}
+    <link rel="stylesheet"
+        href="{% static 'src/output.css' %}">
+    {% endcompress %}
+
+    <script>
+		function ThaiDateTime(date) {
+            let monthNames = [
+                "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน",
+                "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม.",
+                "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+            ];
+
+            let year = date.getFullYear() + 543;
+            let month = monthNames[date.getMonth()];
+            let numOfDay = date.getDate();
+
+            let hours = date.getHours().toString().padStart(2, "0");
+            let minutes = date.getMinutes().toString().padStart(2, "0");
+            let seconds = date.getSeconds().toString().padStart(2, "0");
+
+            return `${numOfDay} ${month} ${year} ${hours}:${minutes}:${seconds} น.`;
+		}
+		setInterval(UpdateTime, 1000);
+		function UpdateTime() {
+			let now = ThaiDateTime(new Date());
+			document.getElementById('currentDateTime').innerHTML = now;
+		}
+	</script>
+
+ 
+</head>
+ 
+<body>
+    <div class="container mx-auto px-4 py-4 text-black ">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+ 
+</html>
